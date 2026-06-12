@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Mock Interview Platform</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">AI Mock Interview Platform</p>
+      <h1>Practice interviews, receive instant feedback, and improve before the real round.</h1>
+    </div>
+    <div class="header-actions">
+      <button class="ghost-button" id="loadDemoButton" type="button">Load Demo</button>
+      <button class="primary-button" id="downloadReportButton" type="button">Download Report</button>
+    </div>
+  </header>
+
+  <main class="app-grid">
+    <section class="setup-panel" aria-labelledby="setupTitle">
+      <div class="panel-heading">
+        <p class="section-kicker">Setup</p>
+        <h2 id="setupTitle">Candidate Profile</h2>
+      </div>
+
+      <form id="setupForm" class="stack">
+        <label>
+          Candidate Name
+          <input id="candidateName" name="candidateName" type="text" placeholder="Enter your name" value="Arun M">
+        </label>
+
+        <label>
+          Interview Role
+          <select id="roleSelect" name="roleSelect"></select>
+        </label>
+
+        <div class="two-column">
+          <label>
+            Difficulty
+            <select id="difficultySelect" name="difficultySelect">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate" selected>Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </label>
+
+          <label>
+            Questions
+            <select id="questionCount" name="questionCount">
+              <option value="4">4</option>
+              <option value="5" selected>5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Job Description / Focus
+          <textarea id="jobFocus" name="jobFocus" rows="4" placeholder="Example: React, API integration, problem solving, teamwork">React, JavaScript, communication, problem solving</textarea>
+        </label>
+
+        <button class="primary-button full-width" type="submit">Start Interview</button>
+      </form>
+
+      <div class="quick-stats" aria-label="session summary">
+        <div>
+          <strong id="answeredCount">0</strong>
+          <span>Answered</span>
+        </div>
+        <div>
+          <strong id="averageScore">0</strong>
+          <span>Avg Score</span>
+        </div>
+        <div>
+          <strong id="readyScore">--</strong>
+          <span>Readiness</span>
+        </div>
+      </div>
+
+      <div class="workflow-card">
+        <p class="section-kicker">Workflow</p>
+        <ol>
+          <li>Choose role and difficulty.</li>
+          <li>Answer questions by typing or voice.</li>
+          <li>Submit answer for AI-style scoring.</li>
+          <li>Review strengths, gaps, and final report.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="interview-panel" aria-labelledby="interviewTitle">
+      <div class="interview-topline">
+        <div>
+          <p class="section-kicker">Live Interview</p>
+          <h2 id="interviewTitle">Question <span id="questionNumber">1</span></h2>
+        </div>
+        <div class="timer-box" aria-live="polite">
+          <span id="timerDisplay">00:00</span>
+          <small>Session Time</small>
+        </div>
+      </div>
+
+      <div class="progress-track" aria-label="interview progress">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <article class="question-card">
+        <div class="question-meta">
+          <span id="roleBadge">Frontend Developer</span>
+          <span id="difficultyBadge">Intermediate</span>
+          <span id="questionTypeBadge">Technical</span>
+        </div>
+        <h3 id="questionText">Click Start Interview to begin.</h3>
+        <p id="questionHint">Your answer will be evaluated for relevance, structure, evidence, and clarity.</p>
+      </article>
+
+      <label class="answer-label" for="answerInput">Your Answer</label>
+      <textarea id="answerInput" class="answer-box" rows="9" placeholder="Type your answer here, or use voice input if your browser supports speech recognition."></textarea>
+
+      <div class="voice-row">
+        <button class="ghost-button" id="voiceButton" type="button">Start Voice Input</button>
+        <span id="voiceStatus">Voice input ready when supported.</span>
+      </div>
+
+      <div class="interview-actions">
+        <button class="ghost-button" id="previousButton" type="button">Previous</button>
+        <button class="secondary-button" id="sampleAnswerButton" type="button">Show Sample Points</button>
+        <button class="primary-button" id="submitAnswerButton" type="button">Submit Answer</button>
+        <button class="ghost-button" id="nextButton" type="button">Next</button>
+      </div>
+    </section>
+
+    <aside class="feedback-panel" aria-labelledby="feedbackTitle">
+      <div class="panel-heading">
+        <p class="section-kicker">AI Feedback</p>
+        <h2 id="feedbackTitle">Performance Report</h2>
+      </div>
+
+      <div class="score-ring" id="scoreRing" aria-label="overall score">
+        <span id="overallScore">0</span>
+        <small>/100</small>
+      </div>
+
+      <div class="rubric-list" id="rubricList"></div>
+
+      <div class="feedback-box">
+        <h3>Strengths</h3>
+        <ul id="strengthList">
+          <li>Submit an answer to generate feedback.</li>
+        </ul>
+      </div>
+
+      <div class="feedback-box">
+        <h3>Improve Next</h3>
+        <ul id="improvementList">
+          <li>Use the STAR method and include a measurable result.</li>
+        </ul>
+      </div>
+
+      <div class="chart-card">
+        <h3>Score Trend</h3>
+        <canvas id="scoreChart" width="360" height="170" aria-label="score trend chart"></canvas>
+      </div>
+    </aside>
+  </main>
+
+  <section class="history-section" aria-labelledby="historyTitle">
+    <div class="history-heading">
+      <div>
+        <p class="section-kicker">Transcript</p>
+        <h2 id="historyTitle">Interview History</h2>
+      </div>
+      <button class="ghost-button" id="resetButton" type="button">Reset Session</button>
+    </div>
+    <div id="historyList" class="history-list">
+      <p class="empty-state">No answers submitted yet.</p>
+    </div>
+  </section>
+
+  <template id="rubricTemplate">
+    <div class="rubric-item">
+      <div>
+        <strong></strong>
+        <span></span>
+      </div>
+      <div class="mini-track"><div></div></div>
+    </div>
+  </template>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
